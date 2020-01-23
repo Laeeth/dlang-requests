@@ -45,6 +45,11 @@ struct URI {
         } else {
             return false;
         }
+		if (_scheme == "unix")
+		{
+			_host = rest;
+			return true;
+		}
         // separate Authority from path and query
         i = rest.findSplit("/");
         auto authority = i[0];
@@ -62,9 +67,12 @@ struct URI {
         }
 
         i = hp.findSplit(":");
-        _original_host = i[0];
-        _host = i[0];
-        _port = i[2].length ? to!ushort(i[2]) : standard_ports[_scheme];
+        if(i.length)
+		{
+			_original_host = i[0];
+			_host = i[0];
+			_port = i[2].length ? to!ushort(i[2]) : ((_scheme=="unix") ? 0: standard_ports[_scheme]);
+		}
 
         if ( up.length ) {
             i = up.findSplit(":");

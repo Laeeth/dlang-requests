@@ -494,7 +494,7 @@ public struct Request {
                 case "ftp":
                     FTPRequest ftp;
                     return ftp.execute(r);
-                case "https","http":
+				case "https","http","unix":
                     HTTPRequest http;
                     return http.execute(r);
                 default:
